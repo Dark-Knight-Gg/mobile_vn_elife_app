@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mobile_vn_elife_app/routes.dart';
 import 'package:mobile_vn_elife_app/theme.dart';
 
@@ -7,12 +8,26 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
+  static const platform = MethodChannel('setup_config');
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic>? initData;
+    platform.setMethodCallHandler((data) async {
+      if (data.method == 'sendData') {
+        initData = data.arguments as Map<String, dynamic>;
+        return;
+      }
+      initData = null;
+    });
     return MaterialApp(
       theme: theme(
         fontName: "Inter",
@@ -29,7 +44,12 @@ class MyApp extends StatelessWidget {
         );
       },
       debugShowCheckedModeBanner: false,
-      onGenerateRoute: RouteGenerator.generateRoute,
+      onGenerateRoute: (routeSettings) {
+        return RouteGenerator.generateRoute(
+          routeSettings,
+          initData,
+        );
+      },
       onUnknownRoute: RouteGenerator.errorRoute,
       title: 'Form IO Demo',
     );

@@ -13,7 +13,10 @@ class Routes {
 class RouteGenerator {
   static RouteSettings? routeDefaultSettings;
 
-  static Route<dynamic> generateRoute(RouteSettings routeSettings) {
+  static Route<dynamic> generateRoute(
+    RouteSettings routeSettings,
+    Map<String, dynamic>? initData,
+  ) {
     routeDefaultSettings = routeSettings;
     try {
       Map? args;
@@ -23,7 +26,9 @@ class RouteGenerator {
       switch (routeSettings.name) {
         case Routes.demoPage:
           return MaterialPageRoute(
-            builder: (_) => const DemoPage(),
+            builder: (_) => DemoPage(
+              initData: initData,
+            ),
           );
         case Routes.defaultPage:
           return MaterialPageRoute(

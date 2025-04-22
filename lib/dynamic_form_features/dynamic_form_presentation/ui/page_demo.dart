@@ -6,8 +6,12 @@ import '../../../dynamic_form_warehouse/page_builder.dart';
 
 
 class DemoPage extends StatefulWidget {
-  const DemoPage({super.key});
+  const DemoPage({
+    this.initData,
+    super.key,
+  });
 
+  final Map<String, dynamic>? initData;
   @override
   State<DemoPage> createState() => _DefaultPage();
 }
@@ -25,7 +29,7 @@ class _DefaultPage extends State<DemoPage> {
   Widget buildPageGenerate() {
     return
       PageBuilder(
-      formData: dataDemo,
+      formData: widget.initData ?? dataDemo,
       mapAnswers: mapAnswers,
       title: 'Gửi phản ánh kiến nghị',
       backgroundBodyColor: Colors.white,
