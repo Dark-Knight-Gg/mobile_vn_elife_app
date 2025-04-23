@@ -39,7 +39,8 @@ class _DefaultPage extends State<DemoPage> {
   Map<String, dynamic> mapAnswers = {
     "user": '',
     "TTP": SelectorModel(id: 1,code: '003'),
-    "TTLV": SelectorModel(),
+    "QuanHuyen": SelectorModel(),
+    "PhuongXa": SelectorModel(),
     "sonha": '',
     "sdt": '',
     "PAKNTitle": '',
@@ -79,10 +80,7 @@ class _DefaultPage extends State<DemoPage> {
                       "headers": [
                         {"key": "", "value": ""}
                       ],
-                      "request": [
-                        {"key": "tinhTpId", "value": "id"},
-                        {"key": "tinhTpCode", "value": "ma"},
-                      ]
+                      "request": null,
                     },
                     "contentValidateEmpty": null,
                     "errorBorderColor": "#D4D7DA",
@@ -156,10 +154,7 @@ class _DefaultPage extends State<DemoPage> {
                       "headers": [
                         {"key": "", "value": ""}
                       ],
-                      "request": [
-                        {"key": "tinhTpId", "value": "id"},
-                        {"key": "tinhTpCode", "value": "ma"},
-                      ],
+                      "request": null,
                     },
                     "contentValidateEmpty": null,
                     "errorBorderColor": "#D4D7DA",
@@ -189,7 +184,7 @@ class _DefaultPage extends State<DemoPage> {
                     "dataSrc": "url",
                     "data": {
                       "url":
-                          "https://ttdl-gateway.vnpt.vn/category/v1/donvi-hanhchinh/quan-huyen",
+                          "https://ttdl-gateway.vnpt.vn/category/v1/donvi-hanhchinh/quan-huyen?tinhTpId=3&tinhTpCode=",
                       "headers": [
                         {"key": "", "value": ""}
                       ],
@@ -231,8 +226,8 @@ class _DefaultPage extends State<DemoPage> {
                         {"key": "", "value": ""}
                       ],
                       "request": [
-                        {"key": "tinhTpId", "value": "id"},
-                        {"key": "tinhTpCode", "value": "ma"},
+                        {"key": "quanHuyenId", "value": "id"},
+                        {"key": "quanHuyenCode", "value": "ma"},
                       ],
                     },
                     "contentValidateEmpty": null,

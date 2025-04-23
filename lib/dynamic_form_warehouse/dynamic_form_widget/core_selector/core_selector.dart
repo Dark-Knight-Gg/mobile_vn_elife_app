@@ -101,9 +101,7 @@ class _OneUiSelectorState extends State<OneUiSelector> {
 
   Future<List<SelectorModel>> getDataFromApi() async {
     final url = widget.url ?? '';
-    /*   widget.partnerMap == null
-        ? widget.url!
-        : '${widget.url!}${widget.request}';*/
+    widget.partnerMap == null ? widget.url! : '${widget.url!}${widget.request}';
     dio = DioOption().createDio();
     final result = await dio.fetch<Map<String, dynamic>>(
         _setStreamType<SelectModelResponse>(Options(
@@ -153,7 +151,8 @@ class _OneUiSelectorState extends State<OneUiSelector> {
       maxLines: widget.maxLines,
       onTap: () async {
         if (widget.dataSrc == TypeData.dataSrc.value) {
-          final result = await getDataFromApi();
+          final result =
+          await getDataFromApi();
           setState(() {
             _data = result;
           });

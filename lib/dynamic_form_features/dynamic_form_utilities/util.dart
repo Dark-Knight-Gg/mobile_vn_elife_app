@@ -69,10 +69,15 @@ class Util {
     }
   }
 
-  static String getRequest(
-    List<Map<String, dynamic>> request,
+  static String getRequest(List<Map<String, dynamic>>? request,
     Map<String, dynamic>? partnerMap,
   ) {
+    if (request == null) {
+      return '';
+    }
+    if (request.isEmpty) {
+      return '';
+    }
     String result = '';
     request.forEachIndexed(
       (index, element) {

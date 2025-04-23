@@ -102,8 +102,14 @@ class _WizardState extends State<Wizard> {
         centerTitle: false,
         leading: InkWell(
           onTap: () {
-/*            Navigator.pop(context);*/
-            channel.invokeMethod('finishActivity');
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            } else {
+              channel.invokeMethod(
+                'finishActivity',
+                _mapAnswers,
+              );
+            }
           },
           child: const Icon(Icons.arrow_back, color: Color(0xffC10800)),
         ),
