@@ -8,7 +8,12 @@ import 'package:form_io_builder/utils/utils.dart';
 
 import 'data_builder.dart';
 
-Widget columns(Item, map, {show = false}) {
+Widget columns(
+  Item,
+  map,
+  StreamController<dynamic> streamController, {
+  show = false,
+}) {
   return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,13 +28,23 @@ Widget columns(Item, map, {show = false}) {
               alignment: WrapAlignment.start,
               runAlignment: WrapAlignment.start,
               runSpacing: 0.0,
-              children:
-                  dataBuilder(colum['components'], map, pType: 2, show: show),
+              children: dataBuilder(
+                colum['components'],
+                map,
+                streamController,
+                pType: 2,
+                show: show,
+              ),
             ),
       ]);
 }
 
-Widget panel(Item, map, {show = false}) {
+Widget panel(
+  Item,
+  map,
+  StreamController<dynamic> streamController, {
+  show = false,
+}) {
   return ExpansionTile(
     title: Text(
       "${Item['label'] != null ? Item['label'] : ''}",
@@ -40,11 +55,22 @@ Widget panel(Item, map, {show = false}) {
           height: 1),
     ),
     maintainState: true,
-    children: dataBuilder(Item['components'], map, pType: 2, show: show),
+    children: dataBuilder(
+      Item['components'],
+      map,
+      streamController,
+      pType: 2,
+      show: show,
+    ),
   );
 }
 
-Widget gridDataW(Item, Map<String, dynamic> map, {show = false}) {
+Widget gridDataW(
+  Item,
+  Map<String, dynamic> map,
+  StreamController<dynamic> streamController, {
+  show = false,
+}) {
   List<Map<String, dynamic>> listMap = [];
   printO(
       "Contains  ${Item["key"]}  ${map.containsKey(Item["key"])}   ${map[Item["key"]]}");
@@ -57,7 +83,13 @@ Widget gridDataW(Item, Map<String, dynamic> map, {show = false}) {
       Map<String, dynamic> val = (map[Item["key"]] as List)[i];
 
       List<Widget> list = Item['components']!
-          .map<Widget>((e) => widgetBuilder(e, val, 2, show: show))
+          .map<Widget>((e) => widgetBuilder(
+                e,
+                val,
+                streamController,
+                2,
+                show: show,
+              ))
           .toList();
 
       listMap.add(val);
@@ -71,7 +103,18 @@ Widget gridDataW(Item, Map<String, dynamic> map, {show = false}) {
             padding: const EdgeInsets.only(bottom: 8, top: 8),
             child: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: [widgetBuilder(e, listMap.first, 1, show: show)])))
+              children: [
+                widgetBuilder(
+                  e,
+                  listMap.first,
+                  streamController,
+                  1,
+                  show: show,
+                ),
+              ],
+            ),
+          ),
+        )
         .toList();
     // list.insert(0, IconButton(onPressed: (){}, icon: Icon(Icons.remove_circle)),);
 
@@ -162,8 +205,12 @@ Widget gridDataW(Item, Map<String, dynamic> map, {show = false}) {
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   widgetBuilder(
-                                                      e, listMap.last, 1,
-                                                      row: listparent.length)
+                                                    e,
+                                                    listMap.last,
+                                                    streamController,
+                                                    1,
+                                                    row: listparent.length,
+                                                  )
                                                 ])))
                                         .toList());
                                     stream.add(listparent);
@@ -210,16 +257,33 @@ Widget gridDataW(Item, Map<String, dynamic> map, {show = false}) {
       });
 }
 
-Widget taps(Item, map, {show = false}) {
+Widget taps(
+  Item,
+  map,
+  StreamController<dynamic> streamController, {
+  show = false,
+}) {
   return TabBar(
       tabs: Item["components"].length < 1
           ? []
           : Item["components"]
-              .map<Widget>((e) => panel(e, map, show: show))
+              .map<Widget>(
+                (e) => panel(
+                  e,
+                  map,
+                  streamController,
+                  show: show,
+                ),
+              )
               .toList());
 }
 
-Widget fieldSet(Item, map, {show = false}) {
+Widget fieldSet(
+  Item,
+  map,
+  StreamController<dynamic> streamController, {
+  show = false,
+}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.start,
@@ -234,7 +298,14 @@ Widget fieldSet(Item, map, {show = false}) {
       ),
       Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          children: dataBuilder(Item['components'], map, pType: 2, show: show)),
+        children: dataBuilder(
+          Item['components'],
+          map,
+          streamController,
+          pType: 2,
+          show: show,
+        ),
+      ),
     ],
   ); //FormListWedgit(Item['components'], map, pType: 2),
   // maintainState: true,

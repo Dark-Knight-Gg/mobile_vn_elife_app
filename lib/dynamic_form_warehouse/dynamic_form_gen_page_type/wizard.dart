@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile_vn_elife_app/dynamic_form_warehouse/dynamic_form_event/map_change.dart';
 
 import '../dynamic_form_generate/data_builder.dart';
 import '../dynamic_form_widget/base_screen.dart';
@@ -31,13 +34,31 @@ class _WizardState extends State<Wizard> {
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final channel = MethodChannel('flutter_back_channel');
+  StreamController<dynamic> streamController =
+      StreamController<dynamic>.broadcast();
 
   List<dynamic> pages = [];
   double padding = 16.0;
 
+  void listenStream() {
+    streamController.stream.listen((event) {
+      if (event is MapChange) {
+        final key = event.map.keys.first;
+        final value = event.map.values.first;
+        setState(() {
+          _mapAnswers[key] = value;
+        });
+      }
+      print(
+          ' --------------------mapEvnet ${event.map.values.first.toString()}');
+      print(' -------------------mapAnswers ${_mapAnswers.toString()}');
+    });
+  }
+
   @override
   void initState() {
     _mapAnswers = widget.mapAnswers;
+    listenStream();
     if (widget.pages?.isNotEmpty ?? false) {
       pages = widget.pages!;
       currentPageId = widget.pages?.first['key'] ?? '0';
@@ -47,6 +68,7 @@ class _WizardState extends State<Wizard> {
       fields['wedgits'] = dataBuilder(
         fields?['components'] ?? [],
         _mapAnswers,
+        streamController,
       );
     }
 
@@ -119,12 +141,20 @@ class _WizardState extends State<Wizard> {
                   const SizedBox(
                     height: 20,
                   ),
-                ])),
-              )
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    streamController.close();
+    super.dispose();
   }
 }

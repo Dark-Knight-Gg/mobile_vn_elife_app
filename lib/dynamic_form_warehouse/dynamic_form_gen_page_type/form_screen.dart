@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../dynamic_form_features/dynamic_form_utilities/color_app.dart';
@@ -5,14 +7,40 @@ import '../dynamic_form_generate/data_builder.dart';
 import '../dynamic_form_widget/core_button.dart';
 import '../dynamic_form_widget/core_text.dart';
 
-class FormScreen extends StatelessWidget {
+class FormScreen extends StatefulWidget {
   final title;
   final formdata;
   final mapAnswers;
 
   FormScreen({super.key, this.formdata, this.title, this.mapAnswers});
 
+  @override
+  State<FormScreen> createState() => _FormScreenState();
+}
+
+class _FormScreenState extends State<FormScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final StreamController<dynamic> streamController =
+      StreamController<dynamic>.broadcast();
+  late Map<String, dynamic> _mapAnswers;
+
+  void listenStream() {
+    streamController.stream.listen((event) {
+      final listenEvent = event as Map<String, dynamic>;
+      final key = listenEvent.keys.first;
+      final value = listenEvent.values.first;
+      setState(() {
+        _mapAnswers[key] = value;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    _mapAnswers = widget.mapAnswers;
+    listenStream();
+    super.initState();
+  }
 
   Future<bool> _onWillPop(context) async {
     return await showDialog(
@@ -66,7 +94,7 @@ class FormScreen extends StatelessWidget {
           backgroundColor: Colors.white,
           centerTitle: true,
           leading: const BackButton(),
-          title: Text(title),
+          title: Text(widget.title),
         ),
         backgroundColor: Colors.transparent,
         body: Padding(
@@ -78,7 +106,13 @@ class FormScreen extends StatelessWidget {
                   key: formKey,
                   child: ListView.custom(
                     childrenDelegate: SliverChildListDelegate(
-                      [...dataBuilder(formdata, mapAnswers)],
+                      [
+                        ...dataBuilder(
+                          widget.formdata,
+                          _mapAnswers,
+                          streamController,
+                        )
+                      ],
                     ),
                   ),
                 ),
@@ -88,5 +122,11 @@ class FormScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    streamController.close();
+    super.dispose();
   }
 }

@@ -1,11 +1,15 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile_vn_elife_app/dynamic_form_warehouse/dynamic_form_widget/core_selector/selector_bottom_sheet.dart';
 import 'package:mobile_vn_elife_app/dynamic_form_warehouse/dynamic_form_widget/core_selector/selector_model.dart';
+
 import '../../../dynamic_form_features/dynamic_form_network/dio_option.dart';
 import '../../../dynamic_form_features/dynamic_form_utilities/util.dart';
 import '../../dynamic_form_enum/type_data.dart';
+import '../../dynamic_form_event/map_change.dart';
 import '../core_text_field.dart';
 
 class OneUiSelector extends StatefulWidget {
@@ -223,7 +227,11 @@ class _OneUiSelectorState extends State<OneUiSelector> {
   }
 }
 
-Widget selectorBox(Item, Map<String, dynamic> map) {
+Widget selectorBox(
+  Item,
+  Map<String, dynamic> map,
+  StreamController<dynamic> streamController,
+) {
   final title = Item['title'];
   final borderRadius = Item['borderRadius'];
   final initValue = map[Item['key']];
@@ -276,6 +284,13 @@ Widget selectorBox(Item, Map<String, dynamic> map) {
     hardData: hardData,
     onChanged: (value) {
       map[Item['key']] = value;
+      streamController.sink.add(
+        MapChange(
+          {
+            Item['key']: value,
+          },
+        ),
+      );
     },
     partnerMap: partnerMap,
     hasTitle: hasTitle,

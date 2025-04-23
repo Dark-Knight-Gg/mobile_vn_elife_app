@@ -1,5 +1,8 @@
 // ignore_for_file: must_be_immutable
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:mobile_vn_elife_app/dynamic_form_warehouse/dynamic_form_event/map_change.dart';
 
 import '../../dynamic_form_features/dynamic_form_utilities/color_app.dart';
 import '../../dynamic_form_features/dynamic_form_utilities/util.dart';
@@ -37,6 +40,7 @@ class OneUiTextFormField extends StatefulWidget {
     this.controller,
     this.titleFontWeight,
     this.suffixIconWidth,
+    this.streamController,
   });
 
   final String? title;
@@ -68,6 +72,7 @@ class OneUiTextFormField extends StatefulWidget {
   final TextEditingController? controller;
   final FontWeight? titleFontWeight;
   final double? suffixIconWidth;
+  final StreamController<dynamic>? streamController;
 
   @override
   State<OneUiTextFormField> createState() => _OneUiTextFormFieldState();
@@ -407,6 +412,7 @@ class OneUiTextFormFieldPassword extends StatelessWidget {
 Widget textFieldPassword(
   Item,
   Map<String, dynamic> map,
+    StreamController<dynamic> streamController,
 ) {
   final title = Item['title'];
   final contentPadding = Item['contentPadding'];
@@ -429,6 +435,13 @@ Widget textFieldPassword(
     isRequired: isRequired,
     onChanged: (value) {
       map[Item['key']] = value;
+      streamController.sink.add(
+        MapChange(
+          {
+            Item['key']: value,
+          },
+        ),
+      );
     },
     hintText: hintText,
     titleSize: titleSize,
@@ -447,6 +460,7 @@ Widget textFieldPassword(
 Widget textField(
   Item,
   Map<String, dynamic> map,
+  StreamController<dynamic> streamController,
 ) {
   final title = Item['title'];
   final contentPadding = Item['contentPadding'];
@@ -478,6 +492,13 @@ Widget textField(
     isRequired: isRequired,
     onChanged: (value) {
       map[Item['key']] = value;
+      streamController.sink.add(
+        MapChange(
+          {
+            Item['key']: value,
+          },
+        ),
+      );
     },
     enable: enable,
     maxLength: maxLength,
