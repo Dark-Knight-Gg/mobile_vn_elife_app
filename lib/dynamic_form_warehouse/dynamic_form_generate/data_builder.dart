@@ -21,7 +21,7 @@ List<Widget> dataBuilder(
     printO("List Json length ${jsons.length}");
     jsons.forEach((element) {
       listD.add(
-        widgetBuilder(element, map, pType, streamController, show: show),
+        widgetBuilder(element, map,streamController, pType , show: show),
       );
     });
   } else {
