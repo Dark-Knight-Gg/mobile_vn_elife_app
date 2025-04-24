@@ -100,7 +100,9 @@ class _OneUiSelectorState extends State<OneUiSelector> {
   }
 
   Future<List<SelectorModel>> getDataFromApi() async {
-    final url = widget.url ?? '';
+    final url = widget.partnerMap == null
+        ? widget.url!
+        : '${widget.url!}${widget.request}';
     widget.partnerMap == null ? widget.url! : '${widget.url!}${widget.request}';
     dio = DioOption().createDio();
     final result = await dio.fetch<Map<String, dynamic>>(

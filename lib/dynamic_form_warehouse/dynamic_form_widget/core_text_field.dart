@@ -91,7 +91,7 @@ class _OneUiTextFormFieldState extends State<OneUiTextFormField> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+      autovalidateMode: AutovalidateMode.disabled,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,7 +123,7 @@ class _OneUiTextFormFieldState extends State<OneUiTextFormField> {
           ],
           // Read only
           TextFormField(
-            autovalidateMode: AutovalidateMode.onUnfocus,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             onChanged: widget.onChanged,
             maxLines: widget.maxLines ?? 1,
             readOnly: widget.readOnly ?? false,

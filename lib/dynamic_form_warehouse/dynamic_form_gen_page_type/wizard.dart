@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,6 +30,7 @@ class Wizard extends StatefulWidget {
 class _WizardState extends State<Wizard> {
   String? currentPageId;
   late Map<String, dynamic> _mapAnswers;
+/*  late Map<String, dynamic> _partnerMap;*/
 
   final ScrollController customScrollController = ScrollController();
 
@@ -36,6 +38,7 @@ class _WizardState extends State<Wizard> {
   final channel = MethodChannel('flutter_back_channel');
   StreamController<dynamic> streamController =
       StreamController<dynamic>.broadcast();
+  final GlobalKey key = GlobalKey();
 
   List<dynamic> pages = [];
   double padding = 16.0;
@@ -49,29 +52,18 @@ class _WizardState extends State<Wizard> {
           _mapAnswers[key] = value;
         });
       }
-      print(
-          ' --------------------mapEvnet ${event.map.values.first.toString()}');
-      print(' -------------------mapAnswers ${_mapAnswers.toString()}');
     });
   }
 
   @override
   void initState() {
     _mapAnswers = widget.mapAnswers;
+/*    getPartMap();*/
     listenStream();
     if (widget.pages?.isNotEmpty ?? false) {
       pages = widget.pages!;
       currentPageId = widget.pages?.first['key'] ?? '0';
     }
-
-    for (final fields in pages) {
-      fields['wedgits'] = dataBuilder(
-        fields?['components'] ?? [],
-        _mapAnswers,
-        streamController,
-      );
-    }
-
     super.initState();
   }
 
@@ -88,7 +80,38 @@ class _WizardState extends State<Wizard> {
     });
   }
 
-  final GlobalKey key = GlobalKey();
+/*  void getPartMap() {
+    final formData =
+        pages.firstWhere((element) => element['key'] == currentPageId ??);
+    final fromJson = json.decode(formData);
+    final partnerMapLinks = extractPartnerMap(fromJson);
+    _partnerMap = partnerMapLinks;
+  }*/
+
+/*  Map<String, dynamic> extractPartnerMap(dynamic node) {
+    final Map<String, dynamic> result = {};
+
+    void recurse(dynamic node) {
+      if (node is Map<String, dynamic>) {
+        if (node.containsKey("key") && node.containsKey("partnerMap")) {
+          final key = node["key"];
+          final partnerMap = node["partnerMap"];
+          if (key is String && partnerMap is String) {
+            result[key] = partnerMap;
+          }
+        }
+
+        node.forEach((k, v) => recurse(v));
+      } else if (node is List) {
+        for (var item in node) {
+          recurse(item);
+        }
+      }
+    }
+
+    recurse(node);
+    return result;
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +146,7 @@ class _WizardState extends State<Wizard> {
       backgroundColorBody: widget.backgroundBodyColor,
       body: Form(
         key: formKey,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
+        autovalidateMode: AutovalidateMode.disabled,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
           child: CustomScrollView(
@@ -140,10 +163,14 @@ class _WizardState extends State<Wizard> {
                     children: [
                       for (final fields in pages
                           .where((element) => element['key'] == currentPageId))
-                        ...fields['wedgits']
-                      //FormListWedgit(fields?['components']??[], widget.map)
-                    ],
-                  ),
+                            ...dataBuilder(
+                              fields?['components'] ?? [],
+                              _mapAnswers,
+                              streamController,
+                            ),
+                          //FormListWedgit(fields?['components']??[], widget.map)
+                        ],
+                      ),
                   const SizedBox(
                     height: 20,
                   ),

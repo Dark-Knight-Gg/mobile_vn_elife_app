@@ -1,6 +1,8 @@
 import 'dart:convert';
 
-class SelectorModel {
+import 'package:equatable/equatable.dart';
+
+class SelectorModel extends Equatable{
   SelectorModel({
     this.id,
     this.name,
@@ -30,6 +32,10 @@ class SelectorModel {
         'code': code,
         'ma': ma,
       };
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [id];
 }
 // To parse this JSON data, do
 //

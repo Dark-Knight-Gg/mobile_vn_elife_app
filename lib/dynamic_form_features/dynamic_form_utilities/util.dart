@@ -84,7 +84,7 @@ class Util {
         if (index == 0) {
           result = '?${element['key']}=${partnerMap?[element['value']]}';
         } else {
-          result = '&${element['key']}=${element['value']}';
+          result = '$result&${element['key']}=${partnerMap?[element['value']]}';
         }
       },
     );
