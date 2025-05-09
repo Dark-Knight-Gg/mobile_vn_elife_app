@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:form_io_builder/utils/iterable_extension.dart';
 
 import '../../dynamic_form_features/dynamic_form_utilities/color_app.dart';
 import '../dynamic_form_generate/data_builder.dart';
@@ -23,23 +24,68 @@ class _FormScreenState extends State<FormScreen> {
   final StreamController<dynamic> streamController =
       StreamController<dynamic>.broadcast();
   late Map<String, dynamic> _mapAnswers;
+  late Map<String, dynamic> _partnerMap;
 
   void listenStream() {
     streamController.stream.listen((event) {
       final listenEvent = event as Map<String, dynamic>;
       final key = listenEvent.keys.first;
       final value = listenEvent.values.first;
-      setState(() {
-        _mapAnswers[key] = value;
-      });
+      if (_mapAnswers[key] != value) {
+        setState(() {
+          _mapAnswers[key] = value;
+        });
+        clearDataWhenPartnerChange(key);
+      }
     });
   }
 
   @override
   void initState() {
     _mapAnswers = widget.mapAnswers;
+    getPartMap();
     listenStream();
     super.initState();
+  }
+
+  void clearDataWhenPartnerChange(String partnerKey) {
+    final currentMap = _partnerMap.entries
+        .firstWhereOrNull((entry) => entry.value == partnerKey);
+    if (currentMap == null) return;
+    setState(() {
+      _mapAnswers[currentMap.key] = null;
+    });
+    clearDataWhenPartnerChange(currentMap.key);
+  }
+
+  void getPartMap() {
+    final partnerMapLinks = extractPartnerMap(widget.formdata);
+    _partnerMap = partnerMapLinks;
+  }
+
+  Map<String, dynamic> extractPartnerMap(Map<String, dynamic> node) {
+    final Map<String, dynamic> result = {};
+
+    void recurse(dynamic node) {
+      if (node is Map<String, dynamic>) {
+        if (node.containsKey("key") && node.containsKey("partnerMap")) {
+          final key = node["key"];
+          final partnerMap = node["partnerMap"];
+          if (key is String && partnerMap is String) {
+            result[key] = partnerMap;
+          }
+        }
+
+        node.forEach((k, v) => recurse(v));
+      } else if (node is List) {
+        for (var item in node) {
+          recurse(item);
+        }
+      }
+    }
+
+    recurse(node);
+    return result;
   }
 
   Future<bool> _onWillPop(context) async {

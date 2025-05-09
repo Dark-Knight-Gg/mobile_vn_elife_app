@@ -415,16 +415,16 @@ Widget textFieldPassword(
     StreamController<dynamic> streamController,
 ) {
   final title = Item['title'];
-  final contentPadding = Item['contentPadding'];
-  final borderRadius = Item['borderRadius'];
+  final contentPadding = Util.convertToDouble(Item['contentPadding']);
+  final borderRadius = Util.convertToDouble(Item['borderRadius']);
   final isRequired = Item['isRequired'];
   final hintText = Item['hintText'];
-  final titleSize = Item['titleSize'];
+  final titleSize = Util.convertToDouble(Item['titleSize']);
   final titleColor = Util.convertFromHexToColor(Item['titleSize']);
   final contentValidateEmpty = Item['contentValidateEmpty'];
-  final hintSize = Item(['hintSize']);
+  final hintSize = Util.convertToDouble(Item(['hintSize']));
   final hintColor = Util.convertFromHexToColor(Item['hintColor']);
-  final textSize = Item['textSize'];
+  final textSize = Util.convertToDouble(Item['textSize']);
   final textColor = Util.convertFromHexToColor(Item['textColor']);
   final hasTitle = Item['hasTitle'];
   return OneUiTextFormField(
@@ -434,7 +434,7 @@ Widget textFieldPassword(
     borderRadius: borderRadius,
     isRequired: isRequired,
     onChanged: (value) {
-      map[Item['key']] = value;
+/*      map[Item['key']] = value;*/
       streamController.sink.add(
         MapChange(
           {
@@ -463,16 +463,16 @@ Widget textField(
   StreamController<dynamic> streamController,
 ) {
   final title = Item['title'];
-  final contentPadding = Item['contentPadding'];
-  final borderRadius = Item['borderRadius'];
+  final contentPadding = Util.convertToDouble(Item['contentPadding']);
+  final borderRadius = Util.convertToDouble(Item['borderRadius']);
   final isRequired = Item['isRequired'];
   final hintText = Item['hintText'];
-  final titleSize = Item['titleSize'];
+  final titleSize = Util.convertToDouble(Item['titleSize']);
   final titleColor = Util.convertFromHexToColor(Item['titleColor']);
   final contentValidateEmpty = Item['contentValidateEmpty'];
-  final hintSize = Item['hintSize'];
+  final hintSize = Util.convertToDouble(Item['hintSize']);
   final hintColor = Util.convertFromHexToColor(Item['hintColor']);
-  final textSize = Item['textSize'];
+  final textSize = Util.convertToDouble(Item['textSize']);
   final textColor = Util.convertFromHexToColor(Item['textColor']);
   final hasTitle = Item['hasTitle'];
   final enable = Item['enable'];
@@ -491,7 +491,7 @@ Widget textField(
     borderRadius: borderRadius,
     isRequired: isRequired,
     onChanged: (value) {
-      map[Item['key']] = value;
+/*      map[Item['key']] = value;*/
       streamController.sink.add(
         MapChange(
           {

@@ -1,5 +1,7 @@
 // ignore_for_file: unnecessary_import, unrelated_type_equality_checks
 
+import 'dart:convert';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
@@ -72,6 +74,7 @@ class Util {
   static String getRequest(List<Map<String, dynamic>>? request,
     Map<String, dynamic>? partnerMap,
   ) {
+    print('-----------requestStaert-------------$request');
     if (request == null) {
       return '';
     }
@@ -79,6 +82,7 @@ class Util {
       return '';
     }
     String result = '';
+    print('-----------requestBetwent-------------$request');
     request.forEachIndexed(
       (index, element) {
         if (index == 0) {
@@ -88,6 +92,28 @@ class Util {
         }
       },
     );
+    print('-----------requestEnd-------------$request');
     return result;
+  }
+
+  static List<Map<String, dynamic>>? convertToListMap(List<dynamic>? listDynamic) {
+    if (listDynamic == null) {
+      return null;
+    }
+/*    final jsonString =listDynamic.toString();
+    final dynamicList = jsonDecode(jsonString);
+    final List<Map<String, dynamic>> parsedList = (dynamicList as List)
+        .map((item) => item as Map<String, dynamic>)
+        .toList();*/
+    return listDynamic.map((e) => e as Map<String, dynamic>).toList();
+/*    return parsedList;*/
+  }
+
+  static double? convertToDouble(dynamic value){
+    if (value == null) return null;
+    if (value is int) {
+      return value.toDouble();
+    }
+    return value;
   }
 }

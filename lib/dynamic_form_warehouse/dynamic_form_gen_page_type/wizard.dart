@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:form_io_builder/utils/iterable_extension.dart';
 import 'package:mobile_vn_elife_app/dynamic_form_warehouse/dynamic_form_event/map_change.dart';
 
 import '../dynamic_form_generate/data_builder.dart';
@@ -30,7 +31,8 @@ class Wizard extends StatefulWidget {
 class _WizardState extends State<Wizard> {
   String? currentPageId;
   late Map<String, dynamic> _mapAnswers;
-/*  late Map<String, dynamic> _partnerMap;*/
+
+  late Map<String, dynamic> _partnerMap;
 
   final ScrollController customScrollController = ScrollController();
 
@@ -48,22 +50,26 @@ class _WizardState extends State<Wizard> {
       if (event is MapChange) {
         final key = event.map.keys.first;
         final value = event.map.values.first;
-        setState(() {
-          _mapAnswers[key] = value;
-        });
+        if (_mapAnswers[key] != value) {
+          setState(() {
+            _mapAnswers[key] = value;
+          });
+          clearDataWhenPartnerChange(key);
+        }
       }
     });
   }
 
   @override
   void initState() {
-    _mapAnswers = widget.mapAnswers;
-/*    getPartMap();*/
-    listenStream();
     if (widget.pages?.isNotEmpty ?? false) {
       pages = widget.pages!;
       currentPageId = widget.pages?.first['key'] ?? '0';
     }
+    _mapAnswers = widget.mapAnswers;
+    getPartMap();
+    listenStream();
+
     super.initState();
   }
 
@@ -80,15 +86,24 @@ class _WizardState extends State<Wizard> {
     });
   }
 
-/*  void getPartMap() {
-    final formData =
-        pages.firstWhere((element) => element['key'] == currentPageId ??);
-    final fromJson = json.decode(formData);
-    final partnerMapLinks = extractPartnerMap(fromJson);
-    _partnerMap = partnerMapLinks;
-  }*/
+  void clearDataWhenPartnerChange(String partnerKey) {
+    final currentMap = _partnerMap.entries
+        .firstWhereOrNull((entry) => entry.value == partnerKey);
+    if(currentMap == null) return;
+      setState(() {
+        _mapAnswers[currentMap.key] = null;
+      });
+      clearDataWhenPartnerChange(currentMap.key);
+  }
 
-/*  Map<String, dynamic> extractPartnerMap(dynamic node) {
+  void getPartMap() {
+    final formData =
+        pages.firstWhere((element) => element['key'] == currentPageId);
+    final partnerMapLinks = extractPartnerMap(formData);
+    _partnerMap = partnerMapLinks;
+  }
+
+  Map<String, dynamic> extractPartnerMap(Map<String,dynamic> node) {
     final Map<String, dynamic> result = {};
 
     void recurse(dynamic node) {
@@ -111,7 +126,7 @@ class _WizardState extends State<Wizard> {
 
     recurse(node);
     return result;
-  }*/
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,6 +143,7 @@ class _WizardState extends State<Wizard> {
             if (Navigator.canPop(context)) {
               Navigator.pop(context);
             } else {
+              print("------------------bbvvvvvvv------------");
               channel.invokeMethod(
                 'finishActivity',
                 _mapAnswers,
@@ -157,23 +173,17 @@ class _WizardState extends State<Wizard> {
                     // bottom: 0),
                     bottom: MediaQuery.of(context).viewInsets.bottom * 0.5),
                 sliver: SliverList(
-                    delegate: SliverChildListDelegate([
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      for (final fields in pages
-                          .where((element) => element['key'] == currentPageId))
-                            ...dataBuilder(
-                              fields?['components'] ?? [],
-                              _mapAnswers,
-                              streamController,
-                            ),
-                          //FormListWedgit(fields?['components']??[], widget.map)
-                        ],
+                  delegate: SliverChildListDelegate(
+                    [
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: genForm()
+                        //FormListWedgit(fields?['components']??[], widget.map)
+                        ,
                       ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                      const SizedBox(
+                        height: 20,
+                      ),
                     ],
                   ),
                 ),
@@ -189,5 +199,23 @@ class _WizardState extends State<Wizard> {
   void dispose() {
     streamController.close();
     super.dispose();
+  }
+
+  List<Widget> genForm() {
+    try {
+      final widgets = [
+        for (final fields
+            in pages.where((element) => element['key'] == currentPageId))
+          ...dataBuilder(
+            fields?['components'] ?? [],
+            _mapAnswers,
+            streamController,
+          )
+      ];
+      return widgets;
+    } catch (e) {
+      print("-------------lỗi----------$e");
+      return [SizedBox()];
+    }
   }
 }

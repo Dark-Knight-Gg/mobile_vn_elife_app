@@ -86,16 +86,16 @@ Widget button(Item, Map<String, dynamic> map) {
   final title = Item['title'];
   final backgroundColor = Util.convertFromHexToColor(Item['backgroundColor']);
   final borderColor = Util.convertFromHexToColor(Item['borderColor']);
-  final width = Item['width'];
-  final height = Item['height'];
+  final width = Util.convertToDouble(Item['width']);
+  final height = Util.convertToDouble(Item['height']);
   final shadowColor = Util.convertFromHexToColor(Item['shadowColor']);
-  final sizeIcon = Item['sizeIcon'];
-  final titleSize = Item['titleSize'];
+  final sizeIcon = Item['sizeIcon'].toDouble();
+  final titleSize = Util.convertToDouble(Item['titleSize']);
   final titleColor = Util.convertFromHexToColor(Item['titleColor']);
   final iconColor = Util.convertFromHexToColor(Item['iconColor']);
-  final borderRadius = Item['borderRadius'];
-  final borderWith = Item['borderWidth'];
-  final margin = Item['margin'];
+  final borderRadius = Util.convertToDouble(Item['borderRadius']);
+  final borderWith = Util.convertToDouble(Item['borderWidth']);
+  final margin = Util.convertToDouble(Item['margin']);
   return OneUiButton(
     title: title,
     onPress: () {},

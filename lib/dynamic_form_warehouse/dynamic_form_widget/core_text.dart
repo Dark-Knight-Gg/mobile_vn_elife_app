@@ -122,7 +122,7 @@ Widget text(
   Map<String, dynamic> map,
 ) {
   final title = Item['title'];
-  final titleSize = Item['titleSize'];
+  final titleSize = Util.convertToDouble(Item['titleSize']);
   final titleColor = Util.convertFromHexToColor(Item['titleColor']);
   final fontWeight = Util.convertFromStringToFontWeight(Item['fontWeight']);
   return OneUiText.textWidget(
