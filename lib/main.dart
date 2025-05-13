@@ -1,17 +1,19 @@
 import 'dart:async';
-import 'dart:collection';
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile_vn_elife_app/routes.dart';
+import 'package:mobile_vn_elife_app/setup_config_app.dart';
 import 'package:mobile_vn_elife_app/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await getInitDataFromNative();
 
-/*  final initData = await getInitDataFromNative();*/
+  final initData = InitPage.pageUrls;
 
-  runApp(MyApp());
+  runApp(MyApp(initData: initData!));
 }
 
 var jsondemo = {
@@ -364,33 +366,15 @@ var jsondemo = {
 };
 
 /// Nhận dữ liệu từ native thông qua MethodChannel trước khi chạy app
-Future<Map<String, dynamic>> getInitDataFromNative() async {
-  const platform = MethodChannel('setup_config');
-  final completer = Completer<Map<String, dynamic>>();
-
-  platform.setMethodCallHandler((call) async {
-    try {
-      if (call.method == 'sendData') {
-        String args = call.arguments;
-        print('------------------------arg------------$args');
-     /*   Map<String, dynamic> parsed = normalizeListInMap(jsonDecode(args));*/
-        Map<String,dynamic> json = jsonDecode(args);
-        print('------------------------json------------$json');
-        completer.complete(jsondemo);
-      }
-    } catch (e) {
-      print("Lỗi khi parse JSON: $e");
-      completer.complete(jsondemo);
-    }
-  });
-  return completer.future;
+Future<void> getInitDataFromNative() async {
+  setupConfigPage3('this is token');
 }
 
 
 class MyApp extends StatelessWidget {
- /* final Map<String, dynamic> initData;*/
+  final PageUrls initData;
 
-  const MyApp({super.key,/* required this.initData*/});
+  const MyApp({super.key, required this.initData});
 
   @override
   Widget build(BuildContext context) {
@@ -403,7 +387,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       onGenerateRoute: (routeSettings) {
-        return RouteGenerator.generateRoute(routeSettings, null);
+        return RouteGenerator.generateRoute(routeSettings, initData);
       },
       onUnknownRoute: RouteGenerator.errorRoute,
       builder: (context, child) {

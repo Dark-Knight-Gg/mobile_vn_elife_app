@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
+import 'package:mobile_vn_elife_app/setup_config_app.dart';
 
 import '../dynamic_form_utilities/util.dart';
 
@@ -129,7 +130,8 @@ class DioOption {
   }
 
   Future<void> getAccessToken(RequestOptions options) async {
-    options.headers.addAll({'X-Authentication-Token': 'token'});
+    options.headers
+        .addAll({'X-Authentication-Token': 'Bearer ${InitPage.token}'});
   }
 
   Future<void> setXAppData(RequestOptions options) async {

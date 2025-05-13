@@ -154,7 +154,7 @@ class _WizardState extends State<Wizard> {
         ),
         titleSpacing: 0,
         title: OneUiText.textWidget(
-          title: widget.title,
+          title: genTitle() ,
           fontSize: 18,
           fontWeight: FontWeight.w600,
         ),
@@ -216,6 +216,16 @@ class _WizardState extends State<Wizard> {
     } catch (e) {
       print("-------------lỗi----------$e");
       return [SizedBox()];
+    }
+  }
+  String  genTitle() {
+    try {
+      final data = pages.firstWhere((element) => element['key'] == currentPageId);
+      final title = data['title'];
+      return title;
+    } catch (e) {
+      print("-------------lỗi----------$e");
+      return 'lỗi';
     }
   }
 }

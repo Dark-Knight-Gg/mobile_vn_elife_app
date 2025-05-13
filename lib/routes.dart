@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:mobile_vn_elife_app/setup_config_app.dart';
 
 import 'dynamic_form_features/dynamic_form_presentation/ui/defaultPage.dart';
 import 'dynamic_form_features/dynamic_form_presentation/ui/error.dart';
@@ -15,7 +16,7 @@ class RouteGenerator {
 
   static Route<dynamic> generateRoute(
     RouteSettings routeSettings,
-    Map<String, dynamic>? initData,
+    PageUrls initData,
   ) {
     routeDefaultSettings = routeSettings;
     try {
