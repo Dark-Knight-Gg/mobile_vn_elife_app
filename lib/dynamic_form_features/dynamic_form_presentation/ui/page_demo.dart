@@ -40,7 +40,7 @@ class _DefaultPage extends State<DemoPage> {
   Widget buildPageGenerate() {
     return
       PageBuilder(
-      formData: dataGenerate(),
+      formData:  dataTest,
       mapAnswers: mapAnswers,
       title: 'Gửi phản ánh kiến nghị',
       backgroundBodyColor: Colors.white,
@@ -61,15 +61,314 @@ class _DefaultPage extends State<DemoPage> {
   }
 
   Map<String, dynamic> mapAnswers = {
-    "user": '',
+    "textField": '',
     "TTP": SelectorModel(),
     "QuanHuyen": SelectorModel(),
-    "PhuongXa": SelectorModel(),
-    "sonha": '',
-    "sdt": '',
-    "PAKNTitle": '',
-    "PAKNContent": '',
   };
+  Map<String, dynamic> dataTest = {
+    "display": "wizard",
+    "components": [
+      {
+        "title": "Thông tin cơ quan tiếp nhận 3",
+        "label": "Page 1",
+        "type": "panel",
+        "key": "page1",
+        "components": [
+          {
+            "label": "Columns",
+            "columns": [
+              {
+                "components": [
+                  {
+                    "label": "Họ và tên",
+                    "placeholder": "Placeholder",
+                    "applyMaskOn": "change",
+                    "hideLabel": true,
+                    "disabled": false,
+                    "tableView": true,
+                    "validate": {
+                      "required": true,
+                      "customMessage": "Thông báo lỗi tùy ",
+                      "minLength": 10,
+                      "maxLength": 100,
+                      "minWords": 1,
+                      "maxWords": 10
+                    },
+                    "unique": true,
+                    "validateWhenHidden": false,
+                    "key": "textField",
+                    "mobile": {
+                      "borderRadius": 1,
+                      "placeholderColor": "#c81919",
+                      "contentPadding": 1,
+                      "errorBorderColor": "#b1a525",
+                      "focusBorderColor": "#cc1e1e",
+                      "borderColor": "#886811",
+                      "isPassword": true,
+                      "readOnly": false,
+                      "textSize": 14,
+                      "textColor": "#749e00",
+                      "labelColor": "#7c1313",
+                      "labelFontWeight ": "medium",
+                      "maxLine": 1,
+                      "placeholderSize": 14,
+                      "labelSize": 14
+                    },
+                    "type": "textfield",
+                    "input": true
+                  },
+                  {
+                    "title": "Text demo",
+                    "titleColor": "#375c00",
+                    "fontWeight": "normal",
+                    "key": "textDemo",
+                    "type": "mobiletext",
+                    "input": false,
+                    "tableView": false,
+                    "label": "",
+                    "titleSize": 16
+                  },
+/*                  {
+                    "label": "Select",
+                    "widget": "choicesjs",
+                    "tableView": true,
+                    "dataSrc": "url",
+                    "data": {
+                      "url": "https://ttdl-gateway.vnpt.vn/category/v1/donvi-hanhchinh/quan-huyen?tinhTpCode=64",
+                      "headers": [
+                        {
+                          "key": "token",
+                          "value": "token123"
+                        }
+                      ]
+                    },
+                    "idPath": "Id",
+                    "template": "<span>{{ item.ten }}</span>",
+                    "persistent": false,
+                    "validate": {
+                      "customMessage": "Thông báo lỗi tùy "
+                    },
+                    "validateWhenHidden": false,
+                    "key": "select",
+                    "mobile": {
+                      "errorBorderColor": "#e21212",
+                      "focusBorderColor": "#b30000",
+                      "borderColor": "#5c5c5c",
+                      "readOnly": true,
+                      "isShowSearch": true,
+                      "partnerMap": [
+                        "Huyen",
+                        "xa"
+                      ],
+                      "textColor": "#9e0000",
+                      "labelColor": "#001999",
+                      "labelFontWeight ": "normal",
+                      "borderRadius": 1,
+                      "contentPadding": 1,
+                      "maxLine": 1,
+                      "placeholderSize": 20,
+                      "textSize": 20,
+                      "labelSize": 20,
+                      "pathLabel": "ten"
+                    },
+                    "type": "select",
+                    "input": true,
+                    "selectValues": "data",
+                    "disableLimit": false,
+                    "noRefreshOnScroll": false
+                  },*/
+                  {
+                    "label": "Chọn tỉnh/TP",
+                    "widget": "choicesjs",
+                    "tableView": true,
+                    "dataSrc": "json",
+                    "validate": {
+                      "customMessage": "Thông báo lỗi tùy "
+                    },
+                    "mobile": {
+                      "errorBorderColor": "#e21212",
+                      "focusBorderColor": "#b30000",
+                      "borderColor": "#5c5c5c",
+                      "readOnly": true,
+                      "isShowSearch": true,
+                      "textColor": "#9e0000",
+                      "labelColor": "#001999",
+                      "labelFontWeight ": "normal",
+                      "borderRadius": 1,
+                      "contentPadding": 1,
+                      "maxLine": 1,
+                      "placeholderSize": 20,
+                      "textSize": 20,
+                      "labelSize": 20,
+                      "pathLabel": "ten"
+                    },
+                    "data": {
+                      "json": [
+                        {
+                          "name": "name 1",
+                          "address": "address 1",
+                          "Id": "1"
+                        },
+                        {
+                          "name": "name 2",
+                          "address": "address 2",
+                          "Id": "2"
+                        },
+                        {
+                          "name": "name 3",
+                          "address": "address 3",
+                          "Id": "3"
+                        },
+                        {
+                          "name": "name 4",
+                          "address": "address 4",
+                          "Id": "4"
+                        },
+                        {
+                          "name": "name 5",
+                          "address": "address 5",
+                          "Id": "5"
+                        },
+                        {
+                          "name": "name 6",
+                          "address": "address 6",
+                          "Id": "6"
+                        }
+                      ],
+                      "url": "https://ttdl-gateway.vnpt.vn/category/v1/donvi-hanhchinh/tinh-tp",
+                      "headers": [
+                        {
+                          "key": "",
+                          "value": ""
+                        }
+                      ]
+                    },
+                    "valueProperty": "ma",
+                    "template": "<span>{{ item.ten }}</span>",
+                    "validateWhenHidden": false,
+                    "key": "TTP",
+                    "type": "select",
+                    "selectValues": "data",
+                    "disableLimit": false,
+                    "noRefreshOnScroll": false,
+                    "input": true
+                  },
+                  {
+                    "label": "Chọn quận huyện",
+                    "widget": "choicesjs",
+                    "tableView": true,
+                    "dataSrc": "json",
+                    "mobile": {
+                      "errorBorderColor": "#e21212",
+                      "focusBorderColor": "#b30000",
+                      "borderColor": "#5c5c5c",
+                      "readOnly": true,
+                      "isShowSearch": true,
+                      "textColor": "#9e0000",
+                      "labelColor": "#001999",
+                      "labelFontWeight ": "normal",
+                      "borderRadius": 1,
+                      "contentPadding": 1,
+                      "maxLine": 1,
+                      "placeholderSize": 20,
+                      "textSize": 20,
+                      "labelSize": 20,
+                      "pathLabel": "ten"
+                    },
+                    "data": {
+                      "json": [
+                        {
+                          "name": "name 1",
+                          "address": "address 1",
+                          "Id": "1"
+                        },
+                        {
+                          "name": "name 2",
+                          "address": "address 2",
+                          "Id": "2"
+                        },
+                        {
+                          "name": "name 3",
+                          "address": "address 3",
+                          "Id": "3"
+                        },
+                        {
+                          "name": "name 4",
+                          "address": "address 4",
+                          "Id": "4"
+                        },
+                        {
+                          "name": "name 5",
+                          "address": "address 5",
+                          "Id": "5"
+                        },
+                        {
+                          "name": "name 6",
+                          "address": "address 6",
+                          "Id": "6"
+                        }
+                      ],
+                      "url": "https://ttdl-gateway.vnpt.vn/category/v1/donvi-hanhchinh/quan-huyen",
+                      "headers": [
+                        {
+                          "key": "",
+                          "value": ""
+                        }
+                      ],
+                      "params": [
+                        {"key": "tinhTpId", "value": "id"},
+                        {"key": "tinhTpCode", "value": "ma"},
+                      ]
+                    },
+                    "valueProperty": "id",
+                    "template": "<span>{{ item.ten }}</span>",
+                    "refreshOn": "TTP",
+                    "clearOnRefresh": true,
+                    "validateWhenHidden": false,
+                    "key": "quanHuyen",
+                    "type": "select",
+                    "selectValues": "data",
+                    "disableLimit": false,
+                    "noRefreshOnScroll": false,
+                    "labelProperty": "name",
+                    "input": true
+                  }
+
+                ],
+                "width": 6,
+                "offset": 0,
+                "push": 0,
+                "pull": 0,
+                "size": "md",
+                "currentWidth": 6
+              },
+            ],
+            "key": "columns",
+            "type": "columns",
+            "input": false,
+            "tableView": false
+          }
+        ],
+        "input": false,
+        "tableView": false,
+        "breadcrumbClickable": true,
+        "buttonSettings": {"previous": true, "cancel": true, "next": true},
+        "navigateOnEnter": false,
+        "saveOnEnter": false,
+        "scrollToTop": false,
+        "collapsible": false,
+        "description": "Chưa thực hiện",
+        "collapsed": false,
+        "showtitleMenu": true,
+        "titleMenu": "Các bước thực hiện",
+        "customguide":
+            "Hướng dẫn Công dân kiểm tra lại thông tin cơ quan tiếp nhận. Nhấn chọn Tiếp theo và thực hiện các bước để hoàn thành quá trình nộp hồ sơ.",
+        "customConditional": "",
+        "customperformed": "Đang thực hiện"
+      },
+    ]
+  };
+
   Map<String, dynamic> dataDemo3 = {
     "display": "wizard",
     "components": [
@@ -137,8 +436,40 @@ class _DefaultPage extends State<DemoPage> {
                     "title": "Tỉnh/thành phố",
                     "type": "selectorBox",
                     "hintText": "Chọn Tỉnh/thành phố",
-                    "dataSrc": "url",
+                    "dataSrc": "json",
                     "data": {
+                      "json": [
+                        {
+                          "name": "name 1",
+                          "address": "address 1",
+                          "Id": "1"
+                        },
+                        {
+                          "name": "name 2",
+                          "address": "address 2",
+                          "Id": "2"
+                        },
+                        {
+                          "name": "name 3",
+                          "address": "address 3",
+                          "Id": "3"
+                        },
+                        {
+                          "name": "name 4",
+                          "address": "address 4",
+                          "Id": "4"
+                        },
+                        {
+                          "name": "name 5",
+                          "address": "address 5",
+                          "Id": "5"
+                        },
+                        {
+                          "name": "name 6",
+                          "address": "address 6",
+                          "Id": "6"
+                        }
+                      ],
                       "url":
                           "https://ttdl-gateway.vnpt.vn/category/v1/donvi-hanhchinh/tinh-tp",
                       "headers": [
@@ -165,14 +496,46 @@ class _DefaultPage extends State<DemoPage> {
                     "hintSize": 14.0,
                     "borderRadius": 4.0,
                     "hintColor": "#92969C",
-                    "partnerMap": "TTP",
+                    "refreshOn": "TTP",
                     "hasTitle": true,
                     "key": "QuanHuyen",
                     "title": "Quân/Huyện",
                     "type": "selectorBox",
                     "hintText": "Chọn Quận/Huyện",
-                    "dataSrc": "url",
+                    "dataSrc": "json",
                     "data": {
+                      "json": [
+                        {
+                          "name": "name 1",
+                          "address": "address 1",
+                          "Id": "1"
+                        },
+                        {
+                          "name": "name 2",
+                          "address": "address 2",
+                          "Id": "2"
+                        },
+                        {
+                          "name": "name 3",
+                          "address": "address 3",
+                          "Id": "3"
+                        },
+                        {
+                          "name": "name 4",
+                          "address": "address 4",
+                          "Id": "4"
+                        },
+                        {
+                          "name": "name 5",
+                          "address": "address 5",
+                          "Id": "5"
+                        },
+                        {
+                          "name": "name 6",
+                          "address": "address 6",
+                          "Id": "6"
+                        }
+                      ],
                       "url":
                           "https://ttdl-gateway.vnpt.vn/category/v1/donvi-hanhchinh/quan-huyen",
                       "headers": [
@@ -438,8 +801,40 @@ class _DefaultPage extends State<DemoPage> {
                     "title": "Tỉnh/thành phố",
                     "type": "selectorBox",
                     "hintText": "Chọn Tỉnh/thành phố",
-                    "dataSrc": "url",
+                    "dataSrc": "hardData",
                     "data": {
+                      "json": [
+                        {
+                          "name": "name 1",
+                          "address": "address 1",
+                          "Id": "1"
+                        },
+                        {
+                          "name": "name 2",
+                          "address": "address 2",
+                          "Id": "2"
+                        },
+                        {
+                          "name": "name 3",
+                          "address": "address 3",
+                          "Id": "3"
+                        },
+                        {
+                          "name": "name 4",
+                          "address": "address 4",
+                          "Id": "4"
+                        },
+                        {
+                          "name": "name 5",
+                          "address": "address 5",
+                          "Id": "5"
+                        },
+                        {
+                          "name": "name 6",
+                          "address": "address 6",
+                          "Id": "6"
+                        }
+                      ],
                       "url":
                           "https://ttdl-gateway.vnpt.vn/category/v1/donvi-hanhchinh/tinh-tp",
                       "headers": [

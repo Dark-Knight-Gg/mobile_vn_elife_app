@@ -243,171 +243,6 @@ class _OneUiTextFormFieldState extends State<OneUiTextFormField> {
   }*/
 }
 
-class OneUiTextFormFieldPassword extends StatelessWidget {
-  OneUiTextFormFieldPassword({
-    super.key,
-    this.title,
-    this.contentPadding,
-    this.borderRadius,
-    this.isRequired = false,
-    this.keyboardType,
-    this.textInputAction,
-    this.validator,
-    this.onFieldSubmitted,
-    this.controller,
-    this.suffixIcon,
-    this.prefixIcon,
-    this.obscureText,
-    this.enable,
-    this.maxLength,
-    this.hintText,
-    this.onTap,
-    this.titleSize,
-    this.titleColor,
-    this.contentValidateEmpty,
-    this.hintSize,
-    this.hintColor,
-    this.errorBorderColor,
-    this.focusBorderColor,
-    this.borderColor,
-  });
-
-  final String? title;
-  final double? contentPadding;
-  late bool isRequired;
-  final Function(String value)? onFieldSubmitted;
-  final TextInputType? keyboardType;
-  final TextInputAction? textInputAction;
-  final String? Function(String? value)? validator;
-  final double? borderRadius;
-  final TextEditingController? controller;
-  final Widget? suffixIcon;
-  final Widget? prefixIcon;
-  final double? titleSize;
-  final Color? titleColor;
-  final bool? obscureText;
-  final bool? enable;
-  final int? maxLength;
-  Function()? onTap;
-  final String? hintText;
-  final String? contentValidateEmpty;
-  final double? hintSize;
-  final Color? hintColor;
-  final Color? errorBorderColor;
-  final Color? focusBorderColor;
-  final Color? borderColor;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          margin: const EdgeInsets.only(bottom: 8),
-          child: RichText(
-            text: TextSpan(
-              text: title ?? '',
-              style: OneUiText.common.copyWith(
-                fontSize: titleSize,
-                color: titleColor ?? ColorApp.textDefault,
-                fontWeight: FontWeight.w600,
-              ),
-              children: [
-                TextSpan(
-                  text: isRequired ? ' *' : '',
-                  style: OneUiText.common.copyWith(
-                    color: const Color(0xFFFF0000),
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Open Sans',
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        // Read only
-        TextFormField(
-          onTap: onTap,
-          maxLength: maxLength,
-          enabled: enable,
-          obscureText: obscureText ?? false,
-          controller: controller,
-          style: const TextStyle(fontSize: 14, color: ColorApp.textDefault),
-          keyboardType: keyboardType ?? TextInputType.text,
-          textInputAction: textInputAction ?? TextInputAction.next,
-          onFieldSubmitted: onFieldSubmitted,
-          validator: (value) {
-            if (value != null) {
-              if (isRequired && value.isEmpty) {
-                return contentValidateEmpty ??
-                    'Vui lòng không để trống mục này!';
-              }
-            }
-            return null;
-          },
-          decoration: InputDecoration(
-            hintStyle: TextStyle(
-              fontWeight: FontWeight.w400,
-              color: hintColor ?? const Color(0xFF98A0AA),
-              fontSize: hintSize ?? 14,
-            ),
-            hintText: hintText,
-            filled: true,
-            fillColor: enable ?? false ? Colors.white : const Color(0xFFF3F5F9),
-            suffixIcon: suffixIcon,
-            prefixIcon: prefixIcon,
-            contentPadding: contentPadding != null
-                ? EdgeInsets.all(contentPadding!)
-                : const EdgeInsets.only(left: 12, right: 12, top: 9, bottom: 9),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(borderRadius ?? 8),
-              borderSide: BorderSide(
-                color: errorBorderColor ?? const Color(0xffCFDAEC),
-                width: 1,
-              ),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(borderRadius ?? 8),
-              borderSide: BorderSide(
-                color: errorBorderColor ?? const Color(0xffCFDAEC),
-                width: 1,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(borderRadius ?? 8),
-              borderSide: BorderSide(
-                color: focusBorderColor ?? const Color(0xffCFDAEC),
-                width: 1,
-              ),
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(borderRadius ?? 8),
-              borderSide: BorderSide(
-                color: borderColor ?? const Color(0xffCFDAEC),
-                width: 1,
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(borderRadius ?? 8),
-              borderSide: BorderSide(
-                color: borderColor ?? const Color(0xffCFDAEC),
-                width: 1,
-              ),
-            ),
-            disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(borderRadius ?? 8),
-              borderSide: BorderSide(
-                color: borderColor ?? const Color(0xffCFDAEC),
-                width: 1,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
 
 Widget textFieldPassword(
   Item,
@@ -462,29 +297,32 @@ Widget textField(
   Map<String, dynamic> map,
   StreamController<dynamic> streamController,
 ) {
-  final title = Item['title'];
-  final contentPadding = Util.convertToDouble(Item['contentPadding']);
-  final borderRadius = Util.convertToDouble(Item['borderRadius']);
-  final isRequired = Item['isRequired'];
-  final hintText = Item['hintText'];
-  final titleSize = Util.convertToDouble(Item['titleSize']);
-  final titleColor = Util.convertFromHexToColor(Item['titleColor']);
-  final contentValidateEmpty = Item['contentValidateEmpty'];
-  final hintSize = Util.convertToDouble(Item['hintSize']);
-  final hintColor = Util.convertFromHexToColor(Item['hintColor']);
-  final textSize = Util.convertToDouble(Item['textSize']);
-  final textColor = Util.convertFromHexToColor(Item['textColor']);
-  final hasTitle = Item['hasTitle'];
-  final enable = Item['enable'];
-  final maxLength = Item['maxLength'];
-  final errorBorderColor = Util.convertFromHexToColor(Item['errorBorderColor']);
-  final focusBorderColor = Util.convertFromHexToColor(Item['focusBorderColor']);
-  final borderColor = Util.convertFromHexToColor(Item['borderColor']);
-  final isPassWord = Item['isPassword'];
-  final readOnly = Item['readOnly'];
-  final maxLines = Item['maxLines'];
+  final title = Item['label'];
+  final contentPadding = Util.convertToDouble(Item['mobile']?['contentPadding']);
+  final borderRadius = Util.convertToDouble(Item['mobile']?['borderRadius']);
+  final isRequired = Item['validate']?['required'];
+  final hintText = Item['placeholder'];
+  final titleSize = Util.convertToDouble(Item['mobile']?['labelSize']);
+  final titleColor = Util.convertFromHexToColor(Item['mobile']?['labelColor']);
+  final contentValidateEmpty = Item['validate']?['customMessage'];
+  final hintSize = Util.convertToDouble(Item['mobile']?['placeholderSize']);
+  final hintColor =
+      Util.convertFromHexToColor(Item['mobile']?['placeholderColor']);
+  final textSize = Util.convertToDouble(Item['mobile']?['textSize']);
+  final textColor = Util.convertFromHexToColor(Item['mobile']?['textColor']);
+  final hasTitle = !(Item['hiddenLabel'] ?? false);
+  final enable = !(Item['disable'] ?? false);
+  final maxLength = Item['validate']?['maxLength'];
+  final errorBorderColor =
+      Util.convertFromHexToColor(Item['mobile']?['errorBorderColor']);
+  final focusBorderColor =
+      Util.convertFromHexToColor(Item['mobile']?['focusBorderColor']);
+  final borderColor = Util.convertFromHexToColor(Item['mobile']?['borderColor']);
+  final isPassWord = (Item['mobile']?['isPassword']);
+  final readOnly = Item['mobile']?['readOnly'];
+  final maxLines = Item['mobile']?['maxLines'];
   final titleFontWeight =
-      Util.convertFromStringToFontWeight(Item['titleFontWeight']);
+      Util.convertFromStringToFontWeight(Item['mobile']?['labelFontWeight']);
   return OneUiTextFormField(
     title: title,
     contentPadding: contentPadding,

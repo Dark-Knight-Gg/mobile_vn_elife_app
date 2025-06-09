@@ -158,6 +158,7 @@ class BaseScreen extends StatelessWidget {
       // },
       child: Scaffold(
         key: keyBase ?? GlobalKey(),
+
         endDrawerEnableOpenDragGesture: isTouchDrawer,
         drawerEnableOpenDragGesture: isTouchDrawer,
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,

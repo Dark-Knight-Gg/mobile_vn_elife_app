@@ -1,6 +1,7 @@
 enum TypeData {
   dataSrc('url'),
-  hardData('hardData');
+  dataJson('json'),
+  datValues('values');
 
   const TypeData(this.value);
 

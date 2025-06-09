@@ -116,4 +116,43 @@ class Util {
     }
     return value;
   }
-}
+
+  static Alignment? convertToAlignment(String alignment){
+    if (alignment == 'center') {
+      return Alignment.center;
+    } else if (alignment == 'centerLeft') {
+      return Alignment.centerLeft;
+    } else if (alignment == 'centerRight') {
+      return Alignment.centerRight;
+    }else if(alignment == 'topCenter'){
+      return Alignment.topCenter;
+    } else if (alignment == 'topLeft') {
+      return Alignment.topLeft;
+    } else if (alignment == 'topRight') {
+      return Alignment.topRight;
+    }else if(alignment == 'bottomLeft'){
+      return Alignment.bottomCenter;
+    }else if(alignment == 'bottomLeft'){
+      return Alignment.bottomLeft;
+    }else if(alignment == 'bottomRight'){
+      return Alignment.bottomRight;
+    }
+    return null;
+  }
+
+  static BoxFit? convertToBoxFit(String? fit){
+    if (fit == 'contain') {
+      return BoxFit.contain;
+    } else if (fit == 'cover') {
+      return BoxFit.cover;
+    } else if (fit == 'fill') {
+      return BoxFit.fill;
+    } else if (fit == 'fitHeight') {
+      return BoxFit.fitHeight;
+    } else if (fit == 'fitWidth') {
+      return BoxFit.fitWidth;
+    }
+    return null;
+  }
+
+ }

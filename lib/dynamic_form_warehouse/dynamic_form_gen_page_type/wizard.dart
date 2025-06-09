@@ -131,6 +131,7 @@ class _WizardState extends State<Wizard> {
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
+      resizeToAvoidBottomInset: false,
       customAppBar: AppBar(
         backgroundColor: Colors.white,
         systemOverlayStyle: const SystemUiOverlayStyle(
@@ -171,7 +172,7 @@ class _WizardState extends State<Wizard> {
               SliverPadding(
                 padding: EdgeInsets.only(
                     // bottom: 0),
-                    bottom: MediaQuery.of(context).viewInsets.bottom * 0.5),
+                    bottom: 24),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate(
                     [

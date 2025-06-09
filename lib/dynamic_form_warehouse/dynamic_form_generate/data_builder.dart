@@ -43,7 +43,7 @@ Widget widgetBuilder(itemJson, Map<String, dynamic> map,
       break;
     case "size":
       widget = size(itemJson, map);
-    case "text":
+    case "mobiletext":
       widget = text(itemJson, map);
 
     case "textfield":
@@ -62,7 +62,7 @@ Widget widgetBuilder(itemJson, Map<String, dynamic> map,
     case "button":
       widget = button(itemJson, map);
       break;
-    case "selectorBox":
+    case "select":
       widget = selectorBox(itemJson, map, streamController);
 
     case "table":

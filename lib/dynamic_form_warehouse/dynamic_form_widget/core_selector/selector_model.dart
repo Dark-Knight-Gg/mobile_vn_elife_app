@@ -9,6 +9,8 @@ class SelectorModel extends Equatable{
     this.ten,
     this.code,
     this.ma,
+    this.label,
+    this.value,
   });
 
   final int? id;
@@ -16,6 +18,8 @@ class SelectorModel extends Equatable{
   final String? ten;
   final String? code;
   final String? ma;
+  final String? label;
+  final String? value;
 
   factory SelectorModel.fromJson(Map<String, dynamic> json) => SelectorModel(
         id: json['id'] as int?,
@@ -23,6 +27,8 @@ class SelectorModel extends Equatable{
         ten: json['ten'] as String?,
         code: json['code'] as String?,
         ma: json['ma'] as String?,
+        label: json['label'] as String?,
+        value: json['value'] as String?,
       );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
@@ -31,11 +37,22 @@ class SelectorModel extends Equatable{
         'ten': ten,
         'code': code,
         'ma': ma,
+        'label': label,
+        'value': value,
       };
 
   @override
   // TODO: implement props
   List<Object?> get props => [id];
+
+  static List<SelectorModel> convertToSelectedModelList(
+    List<Map<String, dynamic>>? maps,
+  ) {
+    if (maps == null || maps.isEmpty) {
+      return [];
+    }
+    return maps.map((e) => SelectorModel.fromJson(e)).toList();
+  }
 }
 // To parse this JSON data, do
 //
@@ -73,94 +90,3 @@ class SelectModelResponse {
       };
 }
 
-/*class Data {
-  String? lastModifiedDate;
-  int id;
-  String name;
-  String code;
-  String? address;
-  int status;
-  String? provinceId;
-  String? districtId;
-  String? communeId;
-  String? provinceName;
-  DateTime? communeName;
-  int? agencyType;
-  String? phone;
-  String path;
-  int capdonviId;
-  int loaicoquanId;
-  String? diemthuchien;
-  String? createdBy;
-  String? lastModifiedBy;
-  String? email;
-
-  Data({
-    this.lastModifiedDate,
-    required this.id,
-    required this.name,
-    required this.code,
-    this.address,
-    required this.status,
-    this.provinceId,
-    this.districtId,
-    this.communeId,
-    this.provinceName,
-    this.communeName,
-    this.agencyType,
-    this.phone,
-    required this.path,
-    required this.capdonviId,
-    required this.loaicoquanId,
-    this.diemthuchien,
-    this.createdBy,
-    this.lastModifiedBy,
-    this.email,
-  });
-
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-    lastModifiedDate: json["lastModifiedDate"],
-    id: json["id"],
-    name: json["name"],
-    code: json["code"],
-    address: json["address"],
-    status: json["status"],
-    provinceId: json["provinceId"],
-    districtId: json["districtId"],
-    communeId: json["communeId"],
-    provinceName: json["provinceName"],
-    communeName: json["communeName"] == null ? null : DateTime.parse(json["communeName"]),
-    agencyType: json["agencyType"],
-    phone: json["phone"],
-    path: json["path"],
-    capdonviId: json["capdonviId"],
-    loaicoquanId: json["loaicoquanId"],
-    diemthuchien: json["diemthuchien"],
-    createdBy: json["createdBy"],
-    lastModifiedBy: json["lastModifiedBy"],
-    email: json["email"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "lastModifiedDate": lastModifiedDate,
-    "id": id,
-    "name": name,
-    "code": code,
-    "address": address,
-    "status": status,
-    "provinceId": provinceId,
-    "districtId": districtId,
-    "communeId": communeId,
-    "provinceName": provinceName,
-    "communeName": communeName?.toIso8601String(),
-    "agencyType": agencyType,
-    "phone": phone,
-    "path": path,
-    "capdonviId": capdonviId,
-    "loaicoquanId": loaicoquanId,
-    "diemthuchien": diemthuchien,
-    "createdBy": createdBy,
-    "lastModifiedBy": lastModifiedBy,
-    "email": email,
-  };
-}*/

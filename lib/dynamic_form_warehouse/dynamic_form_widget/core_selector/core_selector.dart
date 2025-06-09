@@ -44,6 +44,7 @@ class OneUiSelector extends StatefulWidget {
     this.suffixIconWidth,
     this.suffixIconColor,
     this.request,
+    this.pathLabel,
   });
 
   final String? title;
@@ -75,6 +76,7 @@ class OneUiSelector extends StatefulWidget {
   final double? suffixIconWidth;
   final Color? suffixIconColor;
   final String? request;
+  final String? pathLabel;
 
   @override
   State<OneUiSelector> createState() => _OneUiSelectorState();
@@ -156,7 +158,7 @@ class _OneUiSelectorState extends State<OneUiSelector> {
       textSize: widget.textSize,
       textColor: widget.textColor,
       isRequired: widget.isRequired,
-      enable: true,
+      enable: widget.enable,
       readOnly: true,
       maxLines: widget.maxLines,
       onTap: () async {
@@ -241,36 +243,74 @@ Widget selectorBox(
   Map<String, dynamic> map,
   StreamController<dynamic> streamController,
 ) {
-  final title = Item['title'];
-  final borderRadius =Util.convertToDouble(Item['borderRadius']) ;
-  final initValue = map[Item['key']];
-  final contentValidateEmpty = Item['contentValidateEmpty'];
-  final titleColor = Util.convertFromHexToColor(Item['titleColor']);
-  final titleSize = Util.convertToDouble(Item['titleSize']);
-  final errorBorderColor = Util.convertFromHexToColor(Item['errorBorderColor']);
-  final focusBorderColor = Util.convertFromHexToColor(Item['focusBorderColor']);
-  final borderColor = Util.convertFromHexToColor(Item['borderColor']);
-  final contentPadding = Util.convertToDouble(Item['contentPadding']);
-  final hintText = Item['hintText'];
-  final hintSize = Util.convertToDouble(Item['hintSize']);
-  final hintColor = Util.convertFromHexToColor(Item['hintColor']);
-  final textSize = Util.convertToDouble(Item['textSize']);
-  final textColor = Util.convertFromHexToColor(Item['textColor']);
-  final isRequired = Item['isRequired'];
-  final enable = Item['enable'];
-  final isShowSearch = Item['isShowSearch'];
-  final dataSrc = Item['dataSrc'];
-  final url = Item['data']['url'];
-  final hardData = Item['data']['hardData'];
-  final partnerMap = map[Item['partnerMap']] as SelectorModel?;
-  print('-----------partnerMap-------------$partnerMap');
-  print('-----------requestJson-------------${Item['data']['request']}');
-  final request = Util.getRequest(
-      Util.convertToListMap(Item['data']['request']), partnerMap?.toJson());
-  print('-----------request-------------$request');
-  final hasTitle = Item['hasTitle'];
+  final title = Item['label'];
+  print('------------ +2-------------');
+  final contentPadding = Util.convertToDouble(Item['mobile']?['contentPadding']);
+  print('-----------+0-------------');
+  final borderRadius = Util.convertToDouble(Item['mobile']?['borderRadius']);
+  print('-----------1-------------');
+  final isRequired = Item['validate']?['required'];
+  print('-----------2-------------');
+  final hintText = Item['placeholder'];
+  print('-----------3-------------');
+  final titleSize = Util.convertToDouble(Item['mobile']?['labelSize']);
+  print('-----------4-------------');
+  final titleColor = Util.convertFromHexToColor(Item['mobile']?['labelColor']);
+  print('-----------5-------------');
+  final contentValidateEmpty = Item['validate']?['customMessage'];
+  print('-----------6-------------');
+  final hintSize = Util.convertToDouble(Item['mobile']?['placeholderSize']);
+  print('-----------7-------------');
+  final hintColor =
+      Util.convertFromHexToColor(Item['mobile']?['placeholderColor']);
+  print('-----------8-------------');
+  final textSize = Util.convertToDouble(Item['mobile']?['textSize']);
+  print('-----------1-------------');
+  final textColor = Util.convertFromHexToColor(Item['mobile']?['textColor']);
+  print('-----------9-------------');
+  final hasTitle = !(Item['hiddenLabel'] ?? false);
+  print('-----------10-------------');
+  final enable = !(Item['disable'] ?? false);
+  print('-----------11-------------');
+  final errorBorderColor =
+      Util.convertFromHexToColor(Item['mobile']?['errorBorderColor']);
+  print('-----------12-------------');
+  final focusBorderColor =
+      Util.convertFromHexToColor(Item['mobile']?['focusBorderColor']);
+  print('-----------13-------------');
+  final borderColor = Util.convertFromHexToColor(Item['mobile']?['borderColor']);
+  print('-----------14-------------');
   final titleFontWeight =
-      Util.convertFromStringToFontWeight(Item['titleFontWeight']);
+      Util.convertFromStringToFontWeight(Item['mobile']?['labelFontWeight']);
+  print('-----------15-------------');
+  final initValue = map[Item['key']];
+  print('-----------16-------------');
+  final isShowSearch = Item['isShowSearch'];
+  print('-----------17-------------');
+  final dataSrc = Item['dataSrc'];
+  print('-----------18-------------');
+  final url = Item['data']?['url'];
+  print('-----------19-------------');
+  final hardData =
+      SelectorModel.convertToSelectedModelList(Item['data']?['json']);
+  print('-----------20-------------');
+  final partnerMap = map[Item['refreshOn']] as SelectorModel?;
+  print('-----------21-------------');
+  print('-----------partnerMap-------------$partnerMap');
+  print('-----------requestJson-------------${Item['data']?['request']}');
+  final request = Util.getRequest(
+      Util.convertToListMap(Item['data']?['params']), partnerMap?.toJson());
+  print('-----------22-------------');
+  print('-----------request-------------$request');
+  final pathLabel = Item['mobile']?['pathLabel'];
+  print('-----------23-------------');
+
+
+  final maxLength = Item['validate']?['maxLength'];
+  final isPassWord = (Item['mobile']?['isPassword']);
+  final readOnly = Item['mobile']?['readOnly'];
+  final maxLines = Item['mobile']?['maxLines'];
+
   return OneUiSelector(
     title: title,
     borderRadius: borderRadius,
@@ -307,5 +347,6 @@ Widget selectorBox(
     hasTitle: hasTitle,
     titleFontWeight: titleFontWeight,
     request: request,
+    pathLabel: pathLabel,
   );
 }
